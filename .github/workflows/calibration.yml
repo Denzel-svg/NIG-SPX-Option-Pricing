@@ -30,6 +30,10 @@ jobs:
         env:
           PYTHONPATH: .
         run: python scripts/run_calibration.py
+      - name: Run Black-Scholes benchmark and ARPE comparison
+        env:
+          PYTHONPATH: .
+        run: python scripts/run_benchmark.py
       - name: Upload calibration diagnostics
         uses: actions/upload-artifact@v4
         with:
