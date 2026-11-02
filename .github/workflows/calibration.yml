@@ -34,6 +34,10 @@ jobs:
         env:
           PYTHONPATH: .
         run: python scripts/run_benchmark.py
+      - name: Run residual and numerical stability diagnostics
+        env:
+          PYTHONPATH: .
+        run: python scripts/run_numerical_diagnostics.py
       - name: Upload calibration diagnostics
         uses: actions/upload-artifact@v4
         with:
