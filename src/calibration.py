@@ -103,7 +103,7 @@ class NIGCalibrator:
         missing = set(self.REQUIRED_COLUMNS).difference(quotes.columns)
         if missing:
             raise ValueError(f"Calibration data is missing columns: {sorted(missing)}")
-        data = quotes.loc[:, self.REQUIRED_COLUMNS].copy()
+        data = quotes.loc[:, list(self.REQUIRED_COLUMNS)].copy()
         for column in self.REQUIRED_COLUMNS:
             data[column] = pd.to_numeric(data[column], errors="coerce")
         if not np.isfinite(data.to_numpy(dtype=float)).all():
