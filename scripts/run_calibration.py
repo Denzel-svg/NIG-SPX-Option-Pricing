@@ -1,13 +1,15 @@
 """Run the full-sample NIG calibration and print reproducible diagnostics."""
 from pathlib import Path
 import json
+import sys
 
 import numpy as np
 import pandas as pd
 
-from src.calibration import NIGCalibrator
-
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from src.calibration import NIGCalibrator
 DATA_PATH = ROOT / "data" / "cleaned" / "calibration_candidates.csv.gz"
 OUTPUT_DIR = ROOT / "results" / "calibration"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
