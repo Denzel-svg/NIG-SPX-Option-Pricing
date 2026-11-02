@@ -1,0 +1,10 @@
+# Core numerical stack
+numpy>=1.26
+pandas>=2.1
+scipy>=1.11
+matplotlib>=3.8
+
+# Notebooks and development
+jupyterlab>=4.0
+ipykernel>=6.29
+pytest>=8.0
