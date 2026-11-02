@@ -8,6 +8,7 @@ on:
     paths:
       - "src/calibration.py"
       - "scripts/run_calibration.py"
+      - "scripts/plot_calibration_results.py"
       - "data/cleaned/calibration_candidates.csv.gz"
       - ".github/workflows/calibration.yml"
 
@@ -38,9 +39,15 @@ jobs:
         env:
           PYTHONPATH: .
         run: python scripts/run_numerical_diagnostics.py
-      - name: Upload calibration diagnostics
+      - name: Generate Section 7 figures
+        env:
+          PYTHONPATH: .
+        run: python scripts/plot_calibration_results.py
+      - name: Upload calibration results and report figures
         uses: actions/upload-artifact@v4
         with:
           name: nig-calibration-diagnostics
-          path: results/calibration/
+          path: |
+            results/calibration/
+            results/figures/
           if-no-files-found: error
