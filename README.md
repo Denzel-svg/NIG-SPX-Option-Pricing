@@ -37,7 +37,8 @@ python -m pytest -q
 - NIG Lévy-process primitives: implemented.
 - Mean-correcting risk-neutral NIG characteristic function: implemented.
 - European call Fourier pricing using the Bakshi–Madan / Schoutens representation: implemented and checked against the Black–Scholes analytical formula.
-- Parameter calibration and Monte Carlo lookback pricing: work in progress.
+- Vectorised risk-neutral NIG calibration engine: implemented; numerical validation and final fit diagnostics are in progress.
+- Monte Carlo lookback pricing: work in progress.
 
 ## Risk-neutral convention
 
