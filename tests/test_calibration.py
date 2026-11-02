@@ -31,7 +31,7 @@ def test_parameter_transform_enforces_both_exponential_moment_constraints():
 
 def test_vectorised_fourier_price_matches_quad_pricer():
     """The fast calibration integrator should agree with the reference quad engine."""
-    calibrator = NIGCalibrator(integration_limit=180.0, quadrature_points=512)
+    calibrator = NIGCalibrator(integration_limit=1000.0, quadrature_points=512)
     quotes = small_quote_frame()
     alpha, beta, delta = 8.0, -2.0, 0.25
     vector_prices = calibrator.model_prices(quotes, alpha, beta, delta)
