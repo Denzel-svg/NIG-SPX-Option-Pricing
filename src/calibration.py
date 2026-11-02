@@ -44,8 +44,8 @@ class NIGCalibrator:
 
     def __init__(
         self,
-        integration_limit: float = 150.0,
-        quadrature_points: int = 256,
+        integration_limit: float = 1000.0,
+        quadrature_points: int = 512,
         max_nfev: int = 500,
         mu: float = 0.0,
     ) -> None:
