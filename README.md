@@ -6,8 +6,8 @@ A group project on risk-neutral calibration of a Normal Inverse Gaussian (NIG) L
 
 - `data/raw/`: original market-data workbook (not committed).
 - `data/cleaned/`: cleaned calibration sample and data-quality outputs.
-- `notebooks/`: focused workflow notebooks for market data, validation, European pricing and calibration.
-- `src/`: reusable NIG model, Fourier pricing and calibration implementations.
+- `notebooks/`: focused workflow notebooks for market data, validation, calibration and simulation.
+- `src/`: reusable NIG model and calibration implementations.
 - `scripts/`: reproducible pipeline and diagnostics.
 - `tests/`: automated numerical and mathematical checks.
 - `results/`: generated tables and figures.
@@ -32,9 +32,8 @@ python -m pytest -q
 - Market-data cleaning: implemented in `notebooks/01_Market_Data_Cleaning.ipynb`; the documented selection is 90%–110% moneyness followed by positive trading volume.
 - Data validation: implemented separately in `notebooks/01_Data_Validation.ipynb`.
 - NIG model and risk-neutral characteristic function: implemented in `src/nig_model.py`.
-- European call Fourier pricing: implementation exists in `src/option_pricing.py`; the notebook and implementation still require final review and alignment with the group's report.
 - NIG calibration: implemented in `src/calibration.py`, with the calibration workflow in `notebooks/03_NIG_Calibration.ipynb`.
-- Simulation: to be reviewed as a separate next stage.
+- Simulation: available in `notebooks/04_NIG_simulation.ipynb`; to be reviewed as a separate next stage.
 
 ## Risk-neutral convention
 
