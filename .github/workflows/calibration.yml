@@ -1,4 +1,4 @@
-name: Full-sample NIG calibration
+name: End-to-end SPX data pipeline and NIG calibration
 
 on:
   workflow_dispatch:
@@ -6,16 +6,24 @@ on:
     branches:
       - setup/project-structure
     paths:
-      - "src/calibration.py"
+      - "data/raw/SPX_options_data.xlsx"
+      - "notebooks/01_Market_Data_Cleaning.ipynb"
+      - "notebooks/01_Data_Validation.ipynb"
+      - "scripts/run_data_pipeline.py"
       - "scripts/run_calibration.py"
+      - "scripts/run_benchmark.py"
+      - "scripts/run_numerical_diagnostics.py"
       - "scripts/plot_calibration_results.py"
-      - "data/cleaned/calibration_candidates.csv.gz"
+      - "src/**"
+      - "requirements.txt"
       - ".github/workflows/calibration.yml"
 
 jobs:
-  calibrate:
+  pipeline:
+    # Do not run against an old CSV when the canonical workbook is absent.
+    if: ${{ hashFiles('data/raw/SPX_options_data.xlsx') != '' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -27,27 +35,17 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-      - name: Run full-sample calibration
+      - name: Execute cleaning, validation, calibration and diagnostics
         env:
           PYTHONPATH: .
-        run: python scripts/run_calibration.py
-      - name: Run Black-Scholes benchmark and ARPE comparison
-        env:
-          PYTHONPATH: .
-        run: python scripts/run_benchmark.py
-      - name: Run residual and numerical stability diagnostics
-        env:
-          PYTHONPATH: .
-        run: python scripts/run_numerical_diagnostics.py
-      - name: Generate Section 7 figures
-        env:
-          PYTHONPATH: .
-        run: python scripts/plot_calibration_results.py
-      - name: Upload calibration results and report figures
+          MPLBACKEND: Agg
+        run: python scripts/run_data_pipeline.py
+      - name: Upload executed notebooks, calibration results and figures
         uses: actions/upload-artifact@v4
         with:
-          name: nig-calibration-diagnostics
+          name: nig-end-to-end-pipeline
           path: |
+            results/executed_notebooks/
             results/calibration/
             results/figures/
           if-no-files-found: error
