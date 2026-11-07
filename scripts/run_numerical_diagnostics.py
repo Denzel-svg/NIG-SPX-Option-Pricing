@@ -86,7 +86,7 @@ for limit, points in configurations:
     })
 pd.DataFrame(records).to_csv(RESULTS / "fourier_quadrature_stability.csv", index=False)
 
-print("Residuals by moneyness:\\n", by_moneyness.to_string(), flush=True)
-print("\\nResiduals by expiry:\\n", by_expiry.to_string(), flush=True)
-print("\\nLargest absolute residuals:\\n", worst.head(10).to_string(index=False), flush=True)
-print("\\nFourier quadrature stability:\\n", pd.DataFrame(records).to_string(index=False), flush=True)
+print("Residuals by moneyness:\n", by_moneyness.to_string(), flush=True)
+print("\nResiduals by expiry:\n", by_expiry.to_string(), flush=True)
+print("\nLargest absolute residuals:\n", worst.head(10).to_string(index=False), flush=True)
+print("\nFourier quadrature stability:\n", pd.DataFrame(records).to_string(index=False), flush=True)

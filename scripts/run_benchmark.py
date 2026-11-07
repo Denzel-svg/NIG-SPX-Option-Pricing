@@ -50,4 +50,4 @@ comparison = pd.DataFrame([{
 comparison.to_csv(RESULTS_DIR / "model_comparison.csv", index=False)
 
 print("Black-Scholes benchmark:", comparison.to_string(index=False), flush=True)
-print("Comparison by expiry:\\n", summary.to_string(), flush=True)
+print("Comparison by expiry:\n", summary.to_string(), flush=True)

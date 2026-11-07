@@ -7,6 +7,7 @@ import pandas as pd
 import pytest
 from scipy.integrate import quad
 
+from src.benchmarks import BlackScholesBenchmark
 from src.calibration import NIGCalibrator
 
 
@@ -86,3 +87,36 @@ def test_calibrator_rejects_missing_required_columns():
     calibrator = NIGCalibrator()
     with pytest.raises(ValueError, match="missing columns"):
         calibrator.calibrate(pd.DataFrame({"Strike": [100.0]}))
+
+
+def test_risk_neutral_characteristic_function_has_the_forward_as_first_moment():
+    """phi_T(-i) = E[S_T] must equal S0 * exp((r - q) * T) for any admissible parameters."""
+    spot, rate, dividend, maturity = 100.0, 0.03, 0.01, 0.5
+    alpha, beta, delta = 8.0, -2.0, 0.25
+
+    def kappa(z):
+        return delta * (
+            cmath.sqrt(alpha**2 - beta**2) - cmath.sqrt(alpha**2 - (beta + z) ** 2)
+        )
+
+    u = -1j
+    phi = cmath.exp(
+        1j * u * (math.log(spot) + (rate - dividend) * maturity)
+        + maturity * (kappa(1j * u) - 1j * u * kappa(1.0))
+    )
+    assert phi.real == pytest.approx(spot * math.exp((rate - dividend) * maturity), rel=1e-12)
+    assert phi.imag == pytest.approx(0.0, abs=1e-9)
+
+
+def test_nig_price_converges_to_black_scholes_in_the_gaussian_limit():
+    """With beta = 0 and delta = sigma^2 * alpha, the NIG law tends to a normal law as alpha grows."""
+    sigma = 0.16
+    quotes = small_quote_frame()
+    calibrator = NIGCalibrator(integration_limit=1000.0, quadrature_points=512)
+    black_scholes = BlackScholesBenchmark.model_prices(quotes, sigma)
+    errors = []
+    for alpha in (50.0, 500.0, 5000.0):
+        nig = calibrator.model_prices(quotes, alpha, 0.0, sigma**2 * alpha)
+        errors.append(float(np.max(np.abs(nig - black_scholes))))
+    assert errors[0] > errors[1] > errors[2]
+    assert errors[2] < 1e-3
