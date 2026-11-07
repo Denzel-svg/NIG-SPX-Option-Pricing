@@ -29,11 +29,25 @@ python -m pytest -q
 
 ## Current status
 
-- Market-data cleaning: implemented in `notebooks/01_Market_Data_Cleaning.ipynb`; the documented selection is 90%–110% moneyness followed by positive trading volume.
+- Market-data cleaning: implemented in `notebooks/01_Market_Data_Cleaning.ipynb`; the documented selection is 90%–110% moneyness followed by positive trading volume (1,333 raw quotes, 916 after the moneyness filter, 477 retained).
 - Data validation: implemented separately in `notebooks/01_Data_Validation.ipynb`.
 - NIG model and risk-neutral characteristic function: implemented in `src/nig_model.py`.
 - NIG calibration: implemented in `src/calibration.py`, with the calibration workflow in `notebooks/03_NIG_Calibration.ipynb`.
+- Black–Scholes benchmark: implemented in `src/benchmarks.py` (one common volatility fitted on the same quotes).
 - Simulation: available in `notebooks/04_NIG_simulation.ipynb`; to be reviewed as a separate next stage.
+
+## Reproducing the results
+
+Put the Bloomberg workbook in `data/raw/SPX_options_data.xlsx` and run `python scripts/run_data_pipeline.py`. If Jupyter is not installed, you can run these scripts one after the other from the repository root (with `PYTHONPATH=.`): `run_calibration.py`, `run_benchmark.py`, `run_numerical_diagnostics.py` and `plot_calibration_results.py`. The tables go to `results/calibration/` and the figures to `results/figures/`.
+
+Results on the 477 quotes of 23 October 2026:
+
+| Model | MSE | RMSE | ARPE |
+|---|---|---|---|
+| NIG | 98.23 | 9.91 | 13.78% |
+| Black–Scholes (σ = 15.96%) | 972.97 | 31.19 | 68.00% |
+
+NIG estimates (μ fixed at 0): α ≈ 13.547, β ≈ −9.536, δ ≈ 0.2088. The objective is very flat near the optimum. The three starting points give parameters that differ by about 3×10⁻⁴, so we only quote four decimals.
 
 ## Risk-neutral convention
 

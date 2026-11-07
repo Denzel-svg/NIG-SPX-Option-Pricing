@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Generated intermediates (rebuilt by the scripts)
+results/calibration/*_fit.csv
+results/calibration_result.pkl
+results/executed_notebooks/

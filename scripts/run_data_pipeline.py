@@ -104,8 +104,8 @@ def validate_fresh_export() -> None:
 def main() -> None:
     if not WORKBOOK.is_file():
         raise FileNotFoundError(
-            "Canonical Bloomberg workbook is missing. Add the user's approved "
-            f"workbook at: {WORKBOOK.relative_to(ROOT)}. "
+            "Bloomberg workbook not found. Put the file "
+            f"at: {WORKBOOK.relative_to(ROOT)}. "
             "The pipeline deliberately refuses to reuse a stale cleaned CSV."
         )
 

@@ -3,7 +3,8 @@
 Calibration follows the professor's stated mean-square price-error objective.
 Under the mean-correcting martingale measure, mu cancels, so only
 (alpha, beta, delta) are estimated. A vectorised Gauss-Legendre integration
-routine makes repeated objective evaluations practical for the full sample.\nThe production run is reproducible with scripts/run_calibration.py.
+routine makes repeated objective evaluations practical for the full sample.
+The production run is reproducible with scripts/run_calibration.py.
 """
 from __future__ import annotations
 
