@@ -38,9 +38,11 @@ class CalibrationFigureGenerator:
             axes = [axes]
         for axis, expiry in zip(axes, expiries):
             sample = fit.loc[fit["Expiry"] == expiry].sort_values("Strike")
-            axis.scatter(sample["Strike"], sample["Market_Price"], s=18, label="Market", alpha=0.8)
-            axis.plot(sample["Strike"], sample["Model_Price"], marker=".", linewidth=1.5, label="NIG")
-            axis.plot(sample["Strike"], sample["BS_Model_Price"], marker=".", linewidth=1.5, label="Black-Scholes")
+            axis.scatter(sample["Strike"], sample["Market_Price"], s=18, facecolors="none",
+                         edgecolors="black", linewidths=0.8, label="Market", zorder=3)
+            axis.plot(sample["Strike"], sample["Model_Price"], color="tab:blue", linewidth=1.6, label="NIG")
+            axis.plot(sample["Strike"], sample["BS_Model_Price"], color="tab:orange", linewidth=1.6,
+                      linestyle="--", label="Black-Scholes")
             axis.set_title(expiry)
             axis.set_ylabel("Call price (index points)")
             axis.grid(True, alpha=0.25)
